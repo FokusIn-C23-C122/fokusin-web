@@ -1,4 +1,6 @@
-# Bangkit Capstone Project - FokusIn
+# Bangkit Capstone Project 
+
+## FokusIn
 
 In today’s fast-paced world, people are consuming more short-duration media which can potentially reduce their level of focus. As a result, this might affect their ability to focus during online learning and completing assignments. Our objective is to evaluate how this behavior translates to the context of modern e-learning and generate reports based on our findings.
 
