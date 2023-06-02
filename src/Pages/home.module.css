@@ -1,0 +1,67 @@
+@import "../styles/css/tokens.css";
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: var(--md-sys-color-surface-container-light);
+}
+
+.leftTitle {
+  width: 372px;
+  height: 40px;
+  left: 128px;
+  top: 254px;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 40px;
+  display: flex;
+  align-items: center;
+  color: var(--md-sys-color-on-surface-light);
+}
+
+.highlightedText {
+  color: var( --md-sys-color-primary-light);
+  margin-left: 6px;
+}
+
+.space {
+  margin-right: 6px;
+}
+
+.leftBody {
+  padding-top: 24px;
+  width: 483px;
+  height: 96px;
+  left: 128px;
+  top: 318px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  color: var(--md-sys-color-on-surface-light);
+}
+
+.button {
+  justify-content: center;
+  align-items: center;
+  padding: 0px 24px;
+  width: 349px;
+  height: 48px;
+  background: var(--md-sys-color-on-surface-variant-light);
+  box-shadow: 5px 10px 35px rgba(32, 26, 24, 0.25);
+  border-radius: 6px;
+  flex: none;
+  order: 0;
+  flex-grow: 1;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 130%;
+  display: flex;
+  text-align: center;
+  color: var(--md-sys-color-surface-variant-light);
+}

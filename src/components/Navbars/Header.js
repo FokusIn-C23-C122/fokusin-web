@@ -44,7 +44,7 @@ export default function Header() {
             <Typography
                 as="li"
             >
-                <a href="#" className={styles.menu}>
+                <a href="/#aboutus" className={styles.menu}>
                     About Us
                 </a>
             </Typography>
@@ -53,11 +53,11 @@ export default function Header() {
 
     return (
         <>
-            <Navbar color="#FFFBFF" className="sticky inset-0 z-10 h-max max-w-full rounded-none py-2 px-4 lg:px-8 lg:py-4">
+            <Navbar className={`${styles.navbar} sticky top-0 z-10 h-max max-w-full rounded-none py-2 px-4 lg:px-8 lg:py-4`} style={{ backgroundColor: '#FFFBFF' }}>
                 <div className="flex items-center justify-between">
                     <Typography
                         as="a"
-                        href="#"
+                        href="/"
                         className="mr-4 cursor-pointer py-1.5 font-medium"
                         style={{ color: '#8C3913' }}
                     >
