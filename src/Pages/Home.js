@@ -33,7 +33,7 @@ const Home = () => {
                     </section>
                     <VStack spacing={40} align="stretch">
                         <Button className={styles.button}>
-                            <Link to="/analysis">
+                            <Link to="/recording">
                                 <h2>Start!</h2>
                             </Link>
                         </Button>

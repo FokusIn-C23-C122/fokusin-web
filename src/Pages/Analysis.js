@@ -11,7 +11,7 @@ Chart.register(ArcElement);
 const MyChart = () => {
     const jsonData = [
         {
-            "date": "27-5-2023",
+            "date": "2023-06-04",
             "time": "12:00:00",
             "description": "Studying for Finals",
             "session_length": "03:00:00",

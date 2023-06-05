@@ -7,6 +7,8 @@ import Home from './Pages/Home';
 import AboutUs from './Pages/AboutUs';
 import UserManual from './Pages/UserManual';
 import Analysis from './Pages/Analysis';
+import History from './Pages/History';
+import Recording from './Pages/Recording';
 
 export default function App() {
   return (
@@ -17,6 +19,8 @@ export default function App() {
           <Route path="/#aboutus" element={<AboutUs />} />
           <Route path="/#usermanual" element={<UserManual />} />
           <Route path="/analysis" element={<Analysis />} />
+          <Route path="/history" element={<History />} />
+          <Route path="/recording" element={<Recording />} />
         </>
       </Routes>
     </>

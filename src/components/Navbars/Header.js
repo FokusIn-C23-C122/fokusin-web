@@ -106,7 +106,7 @@ export default function Header({ isAuthenticated }) {
             <Typography
                 as="li"
             >
-                <a href="#" className={styles.menu}>
+                <a href="/recording" className={styles.menu}>
                     Record
                 </a>
             </Typography>
@@ -120,7 +120,7 @@ export default function Header({ isAuthenticated }) {
             <Typography
                 as="li"
             >
-                <a href="#" className={styles.menu}>
+                <a href="/history" className={styles.menu}>
                     History
                 </a>
             </Typography>
