@@ -13,7 +13,7 @@ const TABLE_ROWS = [
         time: "11:00:00",
         description: "Studying for Finals",
         session_length: "03:00:00",
-        focus_length: "02:45:00",
+        focus_length: "00:30:00",
     },
     {
         date: "2023-05-30",
@@ -41,7 +41,7 @@ const TABLE_ROWS = [
         time: "12:00:00",
         description: "Studying for Finals",
         session_length: "03:00:00",
-        focus_length: "00:30:00",
+        focus_length: "02:45:00",
     },
 ];
 

@@ -36,7 +36,7 @@ const UserManual = () => {
                         </a>
                         <ul className="flex flex-wrap items-center mb-6 text-sm font-medium sm:mb-0">
                             <li>
-                                <a href="#" className={`${styles.contact} mr-4 hover:underline md:mr-6 `}>Contact</a>
+                                <a href="/" className={`${styles.contact} mr-4 hover:underline md:mr-6 `}>Contact</a>
                             </li>
                         </ul>
                     </div>
