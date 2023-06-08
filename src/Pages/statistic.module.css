@@ -1,29 +1,28 @@
 @import "../styles/css/tokens.css";
 
 .chartContainer {
-  position: relative;
-  width: 400px;
-  height: 400px;
-  margin: 0 auto;
-  bottom: 80px;
+  margin: 2%;
+  overflow: auto;
 }
 
+.filter {
+  margin-right: 5%;
+}
 .titleOne {
-  width: 416px;
   margin-top: 70px;
   margin-left: 80px;
   font-style: normal;
   font-weight: 700;
-  font-size: 60px;
-  line-height: 73px;
+  font-size: 36px;
+  line-height: 40px;
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   color: var(--md-sys-color-on-surface-light);
 }
 
 .hours {
   position: absolute;
-  top: 67%;
+  top: 66%;
   left: 50%;
   transform: translate(-50%, -50%);
   margin: 0;
@@ -36,7 +35,7 @@
 
 .desc {
   position: absolute;
-  top: 71%;
+  top: 70%;
   left: 50%;
   transform: translateX(-50%);
   margin: 0;
@@ -64,7 +63,7 @@
 
 .secondSquare {
   position: absolute;
-  top: 50%;
+  top: 47%;
   left: 53%;
   width: 492px;
   height: 167px;
@@ -109,7 +108,7 @@
   position: absolute;
   width: 362px;
   height: 58px;
-  left: 52%;
+  left: 55%;
   font-style: normal;
   font-weight: 700;
   font-size: 30px;
@@ -124,7 +123,7 @@
 .focusHours {
   position: absolute;
   margin-left: 20px;
-  left: 62%;
+  left: 65%;
   top: 60%;
   font-weight: 600;
   font-size: 24px;
@@ -155,7 +154,7 @@
 .distractHours {
   position: absolute;
   margin-left: 20px;
-  left: 62%;
+  left: 65%;
   top: 60%;
   font-weight: 600;
   font-size: 24px;
@@ -169,7 +168,7 @@
 
 .totalHours {
   position: absolute;
-  left: 50%;
+  left: 52%;
   top: 42%;
   font-weight: 800;
   font-size: 48px;

@@ -62,7 +62,7 @@ const MyChart = () => {
     const distractedPercentages = focusPercentages.map((percentage) => 100 - percentage);
 
     const chartData = {
-        labels: ['Focus Percentage', 'Distracted Percentage'],
+        labels: ['Focused', 'Distracted'],
         datasets: [
             {
                 data: [focusPercentages[0], distractedPercentages[0]],
@@ -95,15 +95,15 @@ const MyChart = () => {
             <h2 className={styles.titleOne}>Here is your learning progress report</h2>
             <div className={styles.firstSquare}>
                 <div className={styles.firstLine}></div>
-                <h2 className={styles.focused}>Focused</h2>
-                <p className={styles.totalHours}>{totalFocus}</p>
-                <p className={styles.focusHours}> hours</p>
-            </div>
-            <div className={styles.secondSquare}>
-                <div className={styles.secondLine}></div>
                 <h2 className={styles.distracted}>Distracted</h2>
                 <p className={styles.totalHours}>{totalDistract}</p>
                 <p className={styles.distractHours}> hours</p>
+            </div>
+            <div className={styles.secondSquare}>
+                <div className={styles.secondLine}></div>
+                <h2 className={styles.focused}>Focused</h2>
+                <p className={styles.totalHours}>{totalFocus}</p>
+                <p className={styles.focusHours}> hours</p>
             </div>
             <div className={styles.circle}></div>
             <div className={styles.chartContainer}>

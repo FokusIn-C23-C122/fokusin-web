@@ -9,6 +9,7 @@ import UserManual from './Pages/UserManual';
 import Analysis from './Pages/Analysis';
 import History from './Pages/History';
 import Recording from './Pages/Recording';
+import Statistic from './Pages/Statistic';
 
 export default function App() {
   return (
@@ -18,9 +19,10 @@ export default function App() {
           <Route path='/' element={<Home />}></Route>
           <Route path="/#aboutus" element={<AboutUs />} />
           <Route path="/#usermanual" element={<UserManual />} />
-          <Route path="/analysis" element={<Analysis />} />
+          <Route path="/statistic" element={<Analysis />} />
           <Route path="/history" element={<History />} />
           <Route path="/recording" element={<Recording />} />
+          <Route path="/analysis" element={<Statistic />} />
         </>
       </Routes>
     </>
