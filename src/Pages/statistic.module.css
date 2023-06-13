@@ -73,17 +73,6 @@
   z-index: -2;
 }
 
-.circle {
-  position: absolute;
-  top: 55%;
-  left: 42%;
-  width: 250px;
-  height: 250px;
-  background: var(--md-sys-color-background-light);
-  border-radius: 50%;
-  z-index: -1;
-}
-
 .firstLine {
   position: absolute;
   width: 430px;

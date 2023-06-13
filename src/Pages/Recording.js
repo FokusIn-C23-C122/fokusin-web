@@ -19,11 +19,20 @@ const Recording = () => {
                 alert('Camera access denied. Please enable camera access in your browser settings.');
             } else {
                 setShowPermissionPopup(false);
-                startRecording();
+                openCamera();
             }
         } catch (error) {
             console.error('Error requesting camera permission:', error);
         }
+    };
+
+    const openCamera = async () => {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+
+        videoRef.current.srcObject = stream;
+        mediaRecorderRef.current = new MediaRecorder(stream);
+
+        mediaRecorderRef.current.start();
     };
 
     const startRecording = async () => {
@@ -40,9 +49,10 @@ const Recording = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NTEyMzQ2LCJpYXQiOjE2ODY2NDgzNDYsImp0aSI6Ijk4NjlhYTc4Y2EzYTRlMTc4MWVlMGEyODYzZGVjOThkIiwidXNlcl9pZCI6MX0.IUhnGIemshr4Lpr3-pP7AxXc0LwqY5klSJZCtE1clH0',
                 },
                 body: JSON.stringify({
-                    start: true,
+                    start: 'true',
                     description: learnToday,
                 }),
             });
@@ -60,40 +70,34 @@ const Recording = () => {
         }
     };
 
-    const stopRecording = () => {
-        if (mediaRecorderRef.current && recording) {
-            mediaRecorderRef.current.stop();
-            setRecording(false);
-            navigate('/statistic');
+    const stopRecording = async () => {
+        try {
+            const response = await fetch(`${API_URL}/api/analysis/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    ongoing: 'false',
+                }),
+
+            });
+
+            if (response.ok && mediaRecorderRef.current && recording) {
+                console.log('Session ended successfully!');
+                mediaRecorderRef.current.stop();
+                setRecording(false);
+                navigate('/statistic');
+            } else {
+                throw new Error('Request failed with status code ' + response.status);
+            }
+        } catch (error) {
+            console.error('Error stopping session:', error);
         }
     };
 
     const handleLearnTodayChange = (event) => {
         setLearnToday(event.target.value);
-    };
-
-    const handleSubmit = async () => {
-        try {
-            const response = await fetch(`${API_URL}/api/analysis/`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    description: learnToday,
-                }),
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                setId(data.id);
-                console.log('Description submitted successfully!');
-            } else {
-                throw new Error('Request failed with status code ' + response.status);
-            }
-        } catch (error) {
-            console.error('Error submitting description:', error);
-        }
     };
 
     useEffect(() => {
@@ -107,11 +111,15 @@ const Recording = () => {
                 const ctx = canvas.getContext('2d');
                 ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
                 const imageBlob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/jpeg', 0.8));
+                const formData = new FormData();
+
+                formData.append('file', imageBlob);
+                formData.append('ongoing', 'true');
 
                 try {
                     const response = await fetch(`${API_URL}/api/analysis/${id}`, {
                         method: 'PUT',
-                        body: imageBlob,
+                        body: formData,
                     });
 
                     if (response.ok) {
@@ -145,7 +153,6 @@ const Recording = () => {
             {!showPermissionPopup && (
                 <div>
                     <input type="text" value={learnToday} onChange={handleLearnTodayChange} />
-                    <button onClick={handleSubmit}>Submit</button>
                 </div>
             )}
 

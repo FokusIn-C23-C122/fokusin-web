@@ -33,26 +33,15 @@ const MyChart = () => {
 
     useEffect(() => {
         const totalFocus = chartFill.reduce((acc, row) => {
-            const focusParts = row.focus_length.split(':');
-            const focusHours = parseInt(focusParts[0]);
-            const focusMinutes = parseInt(focusParts[1]);
-            const focusSeconds = parseInt(focusParts[2]);
-            const focusTimeInSeconds = focusHours * 3600 + focusMinutes * 60 + focusSeconds;
+            const focusParts = row.focus_length;
+            const focusTimeInSeconds = focusParts;
             return acc + focusTimeInSeconds;
         }, 0);
 
         const totalDistract = chartFill.reduce((acc, row) => {
-            const sessionParts = row.session_length.split(':');
-            const focusParts = row.focus_length.split(':');
-            const sessionHours = parseInt(sessionParts[0]);
-            const sessionMinutes = parseInt(sessionParts[1]);
-            const sessionSeconds = parseInt(sessionParts[2]);
-            const focusHours = parseInt(focusParts[0]);
-            const focusMinutes = parseInt(focusParts[1]);
-            const focusSeconds = parseInt(focusParts[2]);
-            const sessionTimeInSeconds = sessionHours * 3600 + sessionMinutes * 60 + sessionSeconds;
-            const focusTimeInSeconds = focusHours * 3600 + focusMinutes * 60 + focusSeconds;
-            const distractTimeInSeconds = sessionTimeInSeconds - focusTimeInSeconds;
+            const sessionParts = row.session_length;
+            const focusParts = row.focus_length;
+            const distractTimeInSeconds = sessionParts - focusParts;
             return acc + distractTimeInSeconds;
         }, 0);
 

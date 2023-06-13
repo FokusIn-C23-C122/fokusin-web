@@ -163,9 +163,6 @@ export default function Header() {
                                 <Link to="/register" className={styles.button}>
                                     <span>Register</span>
                                 </Link>
-                                <Link to="/login" className={styles.button}>
-                                    <span>Login</span>
-                                </Link>
                             </>
                         ) : (
                             <ProfileMenu

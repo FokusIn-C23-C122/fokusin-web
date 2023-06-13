@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Typography } from "@material-tailwind/react";
 import { Icon } from '@iconify/react';
+import moment from 'moment-timezone';
 
 import Layout from '../components/Layout';
 import styles from './history.module.css'
 import { API_URL } from '../constants/Api';
 
 const TABLE_HEAD = ["Date", "Time", "Description", "Total Sessions", "Total Focus"];
+
 
 const History = () => {
     const [selectedFilter, setSelectedFilter] = useState('All');
@@ -15,6 +17,16 @@ const History = () => {
     const [tableData, setTableData] = useState([]);
     const [filteredTableData, setFilteredTableData] = useState([]);
     const [noDataMessage, setNoDataMessage] = useState('');
+
+    const formatDuration = (durationInSeconds) => {
+        const hours = Math.round(durationInSeconds / 3600);
+        const minutes = Math.round((durationInSeconds % 3600) / 60);
+
+        const hoursText = hours > 0 ? `${hours} hour${hours > 1 ? 's' : ''}` : '';
+        const minutesText = minutes > 0 ? `${minutes} minute${minutes > 1 ? 's' : ''}` : '';
+
+        return `${hoursText} ${minutesText}`.trim();
+    };
 
     useEffect(() => {
         const fetchChartData = async () => {
@@ -33,26 +45,15 @@ const History = () => {
 
     useEffect(() => {
         const totalFocus = filteredTableData.reduce((acc, row) => {
-            const focusParts = row.focus_length.split(':');
-            const focusHours = parseInt(focusParts[0]);
-            const focusMinutes = parseInt(focusParts[1]);
-            const focusSeconds = parseInt(focusParts[2]);
-            const focusTimeInSeconds = focusHours * 3600 + focusMinutes * 60 + focusSeconds;
+            const focusParts = row.focus_length;
+            const focusTimeInSeconds = focusParts;
             return acc + focusTimeInSeconds;
         }, 0);
 
         const totalDistract = filteredTableData.reduce((acc, row) => {
-            const sessionParts = row.session_length.split(':');
-            const focusParts = row.focus_length.split(':');
-            const sessionHours = parseInt(sessionParts[0]);
-            const sessionMinutes = parseInt(sessionParts[1]);
-            const sessionSeconds = parseInt(sessionParts[2]);
-            const focusHours = parseInt(focusParts[0]);
-            const focusMinutes = parseInt(focusParts[1]);
-            const focusSeconds = parseInt(focusParts[2]);
-            const sessionTimeInSeconds = sessionHours * 3600 + sessionMinutes * 60 + sessionSeconds;
-            const focusTimeInSeconds = focusHours * 3600 + focusMinutes * 60 + focusSeconds;
-            const distractTimeInSeconds = sessionTimeInSeconds - focusTimeInSeconds;
+            const sessionParts = row.session_length;
+            const focusParts = row.focus_length;
+            const distractTimeInSeconds = sessionParts - focusParts;
             return acc + distractTimeInSeconds;
         }, 0);
 
@@ -116,15 +117,9 @@ const History = () => {
     };
 
     const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        const options = {
-            weekday: "long",
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-        };
-
-        return date.toLocaleDateString("en-US", options);
+        const date = moment(dateString);
+        const formattedDate = date.tz('Asia/Bangkok').format('dddd, MMMM Do YYYY');
+        return formattedDate;
     };
 
     return (
@@ -177,8 +172,8 @@ const History = () => {
                                 </tr>
                             </thead>
                             <tbody className={styles.tbody}>
-                                {filteredTableData.map(({ date, time, description, session_length, focus_length }) => (
-                                    <tr key={date} className="even:bg-gray-50/50">
+                                {filteredTableData.map(({ date, time, description, session_length, focus_length }, index) => (
+                                    <tr key={`${date}-${index}`} className='even:bg-brown-50/50'>
                                         <td className="p-4">
                                             <Typography variant="small" className="font-normal">
                                                 {formatDate(date)}
@@ -196,12 +191,12 @@ const History = () => {
                                         </td>
                                         <td className="p-4">
                                             <Typography variant="small" className="font-normal">
-                                                {session_length}
+                                                {formatDuration(session_length)}
                                             </Typography>
                                         </td>
                                         <td className="p-4">
                                             <Typography variant="small" className="font-normal">
-                                                {focus_length}
+                                                {formatDuration(focus_length)}
                                             </Typography>
                                         </td>
                                     </tr>

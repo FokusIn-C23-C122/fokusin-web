@@ -1,14 +1,18 @@
 import React, { useState, useContext } from 'react';
 import { API_URL } from '../constants/Api';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import AuthContext from './AuthContext';
+
+import { Card, Input, Button, Typography } from '@material-tailwind/react';
+import styles from './register.module.css'
+import illustration from '../assets/illustration.svg';
 
 const Register = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const { setIsLoggedIn } = useContext(AuthContext);
 
@@ -20,12 +24,10 @@ const Register = () => {
             return;
         }
 
-        setLoading(true);
-
-        console.log('username:', username);
-        console.log('email:', email);
-        console.log('password:', password);
-
+        if (password.length < 6) {
+            setErrorMessage('Password must be at least 6 characters long');
+            return;
+        }
 
         try {
             const response = await fetch(`${API_URL}/api/user/register/`, {
@@ -39,58 +41,67 @@ const Register = () => {
             if (response.ok) {
                 const data = await response.json();
                 console.log(data);
-                setLoading(false);
-
-                setIsLoggedIn(true); // Update the authentication status in the context
-
+                setIsLoggedIn(true);
                 navigate('/login');
+                window.location.reload(true);
             } else {
                 throw new Error('Registration failed');
             }
-
         } catch (error) {
             console.error(error);
-            setLoading(false);
             setErrorMessage('Registration failed');
         }
     };
 
     return (
-        <div>
-            <h2>Register</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="username">Username:</label>
-                    <input
-                        type="text"
-                        id="username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="email">Email:</label>
-                    <input
-                        type="email"
-                        id="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="password">Password:</label>
-                    <input
-                        type="password"
-                        id="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </div>
-                {errorMessage && <p>{errorMessage}</p>}
-                <button type="submit" disabled={loading}>
-                    {loading ? 'Loading...' : 'Register'}
-                </button>
-            </form>
+        <div className={styles.container}>
+            <div className={styles.illustrationContainer}>
+                <img src={illustration} alt="Illustration" />
+            </div>
+            <Card shadow={false} className={styles.card}>
+                <Typography variant="h4" color="blue-gray">
+                    Sign Up
+                </Typography>
+                <Typography color="gray" className="mt-1 font-normal">
+                    Enter your details to register.
+                </Typography>
+                <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96" onSubmit={handleSubmit}>
+                    <div className="mb-4 flex flex-col gap-6">
+                        <Input
+                            size="lg"
+                            label="Name"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                        />
+                        <Input
+                            size="lg"
+                            label="Email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                        <Input
+                            type="password"
+                            size="lg"
+                            label="Password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                    </div>
+                    {errorMessage && <Typography color="red">{errorMessage}</Typography>}
+                    <Button type="submit" className="mt-6" fullWidth>
+                        Register
+                    </Button>
+                    <Typography color="gray" className="mt-4 text-center font-normal">
+                        Already have an account?{' '}
+                        <Link
+                            to="/login"
+                            className="font-medium text-blue-500 transition-colors hover:text-blue-700"
+                        >
+                            Sign In
+                        </Link>
+                    </Typography>
+                </form>
+            </Card>
         </div>
     );
 };
