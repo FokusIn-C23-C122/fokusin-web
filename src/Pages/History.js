@@ -4,55 +4,35 @@ import { Icon } from '@iconify/react';
 
 import Layout from '../components/Layout';
 import styles from './history.module.css'
+import { API_URL } from '../constants/Api';
 
 const TABLE_HEAD = ["Date", "Time", "Description", "Total Sessions", "Total Focus"];
 
-const TABLE_ROWS = [
-    {
-        date: "2023-06-04",
-        time: "11:00:00",
-        description: "Studying for Finals",
-        session_length: "03:00:00",
-        focus_length: "00:30:00",
-    },
-    {
-        date: "2023-05-30",
-        time: "22:00:00",
-        description: "Studying for Finals",
-        session_length: "03:00:00",
-        focus_length: "00:55:00",
-    },
-    {
-        date: "2023-05-31",
-        time: "14:00:00",
-        description: "Studying for Finals",
-        session_length: "03:00:00",
-        focus_length: "02:30:00",
-    },
-    {
-        date: "2023-05-20",
-        time: "12:30:00",
-        description: "Studying for Finals",
-        session_length: "03:00:00",
-        focus_length: "01:10:00",
-    },
-    {
-        date: "2023-04-28",
-        time: "12:00:00",
-        description: "Studying for Finals",
-        session_length: "03:00:00",
-        focus_length: "02:45:00",
-    },
-];
-
 const History = () => {
     const [selectedFilter, setSelectedFilter] = useState('All');
-    const [filteredRows, setFilteredRows] = useState(TABLE_ROWS);
     const [totalFocus, setTotalFocus] = useState(0);
     const [totalDistract, setTotalDistract] = useState(0);
+    const [tableData, setTableData] = useState([]);
+    const [filteredTableData, setFilteredTableData] = useState([]);
+    const [noDataMessage, setNoDataMessage] = useState('');
 
     useEffect(() => {
-        const totalFocus = filteredRows.reduce((acc, row) => {
+        const fetchChartData = async () => {
+            try {
+                const response = await fetch(`${API_URL}/api/analysis/`);
+                const data = await response.json();
+                setTableData(data);
+                setFilteredTableData(data);
+            } catch (error) {
+                console.error('Error fetching chart data:', error);
+            }
+        };
+
+        fetchChartData();
+    }, []);
+
+    useEffect(() => {
+        const totalFocus = filteredTableData.reduce((acc, row) => {
             const focusParts = row.focus_length.split(':');
             const focusHours = parseInt(focusParts[0]);
             const focusMinutes = parseInt(focusParts[1]);
@@ -61,7 +41,7 @@ const History = () => {
             return acc + focusTimeInSeconds;
         }, 0);
 
-        const totalDistract = filteredRows.reduce((acc, row) => {
+        const totalDistract = filteredTableData.reduce((acc, row) => {
             const sessionParts = row.session_length.split(':');
             const focusParts = row.focus_length.split(':');
             const sessionHours = parseInt(sessionParts[0]);
@@ -81,39 +61,39 @@ const History = () => {
 
         setTotalFocus(roundedTotalFocus);
         setTotalDistract(roundedTotalDistract);
-    }, [filteredRows]);
-
+    }, [filteredTableData]);
 
     const handleFilterChange = (filter) => {
         setSelectedFilter(filter);
+        let filtered = [];
 
         if (filter === 'All') {
-            setFilteredRows(TABLE_ROWS);
+            filtered = tableData;
         } else if (filter === 'LastDay') {
             const lastDay = new Date();
             lastDay.setDate(lastDay.getDate() - 1);
-            const filtered = TABLE_ROWS.filter((row) => {
+            filtered = tableData.filter((row) => {
                 const rowDate = new Date(row.date);
                 return rowDate.toDateString() === lastDay.toDateString();
             });
-            setFilteredRows(filtered);
         } else if (filter === 'LastWeek') {
             const lastWeek = new Date();
             lastWeek.setDate(lastWeek.getDate() - 7);
-            const filtered = TABLE_ROWS.filter((row) => {
+            filtered = tableData.filter((row) => {
                 const rowDate = new Date(row.date);
                 return rowDate >= lastWeek;
             });
-            setFilteredRows(filtered);
         } else if (filter === 'LastMonth') {
             const lastMonth = new Date();
             lastMonth.setMonth(lastMonth.getMonth() - 1);
-            const filtered = TABLE_ROWS.filter((row) => {
+            filtered = tableData.filter((row) => {
                 const rowDate = new Date(row.date);
                 return rowDate >= lastMonth;
             });
-            setFilteredRows(filtered);
         }
+
+        setFilteredTableData(filtered);
+        setNoDataMessage(filtered.length === 0 ? 'No data available.' : '');
     };
 
     const formatTime = (timeString) => {
@@ -146,7 +126,6 @@ const History = () => {
 
         return date.toLocaleDateString("en-US", options);
     };
-
 
     return (
         <>
@@ -186,48 +165,50 @@ const History = () => {
                         </select>
                     </div>
 
-                    <table className="w-full min-w-max table-auto text-center">
-                        <thead className={styles.thead}>
-                            <tr>
-                                {TABLE_HEAD.map((head) => (
-                                    <th key={head}>
-                                        {head}
-                                    </th>
-                                ))}
-                            </tr>
-                        </thead>
-                        <tbody className={styles.tbody}>
-                            {filteredRows.map(({ date, time, description, session_length, focus_length }, index) => (
-                                <tr key={date} className="even:bg-gray-50/50">
-                                    <td className="p-4">
-                                        <Typography variant="small" className="font-normal">
-                                            {formatDate(date)}
-                                        </Typography>
-                                    </td>
-                                    <td className="p-4">
-                                        <Typography variant="small" className="font-normal">
-                                            {formatTime(time)}
-                                        </Typography>
-                                    </td>
-                                    <td className="p-4">
-                                        <Typography variant="small" className="font-normal">
-                                            {description}
-                                        </Typography>
-                                    </td>
-                                    <td className="p-4">
-                                        <Typography variant="small" className="font-normal">
-                                            {session_length}
-                                        </Typography>
-                                    </td>
-                                    <td className="p-4">
-                                        <Typography variant="small" className="font-normal">
-                                            {focus_length}
-                                        </Typography>
-                                    </td>
+                    {filteredTableData.length === 0 ? (
+                        <p>{noDataMessage}</p>
+                    ) : (
+                        <table className="w-full min-w-max table-auto text-center">
+                            <thead className={styles.thead}>
+                                <tr>
+                                    {TABLE_HEAD.map((head) => (
+                                        <th key={head}>{head}</th>
+                                    ))}
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody className={styles.tbody}>
+                                {filteredTableData.map(({ date, time, description, session_length, focus_length }) => (
+                                    <tr key={date} className="even:bg-gray-50/50">
+                                        <td className="p-4">
+                                            <Typography variant="small" className="font-normal">
+                                                {formatDate(date)}
+                                            </Typography>
+                                        </td>
+                                        <td className="p-4">
+                                            <Typography variant="small" className="font-normal">
+                                                {formatTime(time)}
+                                            </Typography>
+                                        </td>
+                                        <td className="p-4">
+                                            <Typography variant="small" className="font-normal">
+                                                {description}
+                                            </Typography>
+                                        </td>
+                                        <td className="p-4">
+                                            <Typography variant="small" className="font-normal">
+                                                {session_length}
+                                            </Typography>
+                                        </td>
+                                        <td className="p-4">
+                                            <Typography variant="small" className="font-normal">
+                                                {focus_length}
+                                            </Typography>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    )}
                 </Card>
             </div>
         </>

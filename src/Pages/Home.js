@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { HStack, VStack, Button } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
@@ -6,8 +6,11 @@ import Layout from '../components/Layout';
 import styles from './home.module.css';
 import AboutUs from './AboutUs';
 import UserManual from './UserManual';
+import AuthContext from './AuthContext';
 
 const Home = () => {
+    const { isLoggedIn } = useContext(AuthContext);
+
     return (
         <>
             <Layout />
@@ -32,7 +35,7 @@ const Home = () => {
                         </p>
                     </section>
                     <VStack spacing={40} align="stretch">
-                        <Button className={styles.button}>
+                        <Button className={styles.button} disabled={!isLoggedIn}>
                             <Link to="/recording">
                                 <h2>Start!</h2>
                             </Link>

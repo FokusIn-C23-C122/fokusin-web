@@ -1,33 +1,38 @@
-import React, { useRef, useState, useEffect, useMemo } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart, ArcElement } from 'chart.js';
 import 'chartjs-plugin-datalabels';
 
 import Layout from '../components/Layout';
 import styles from './analysis.module.css';
+import { API_URL } from '../constants/Api';
 
 Chart.register(ArcElement);
 
 const MyChart = () => {
     const [totalFocus, setTotalFocus] = useState(0);
     const [totalDistract, setTotalDistract] = useState(0);
-
-    const CHART_FILL = useMemo(
-        () => [
-            {
-                date: "2023-06-04",
-                time: "11:00:00",
-                description: "Studying for Finals",
-                session_length: "03:00:00",
-                focus_length: "00:30:00",
-                focus_percentage: 17
-            },
-        ],
-        []
-    );
+    const [chartFill, setChartFill] = useState([]);
 
     useEffect(() => {
-        const totalFocus = CHART_FILL.reduce((acc, row) => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`${API_URL}/api/analysis/`);
+                const data = await response.json();
+                if (Array.isArray(data) && data.length > 0) {
+                    const latestData = data[data.length - 1];
+                    setChartFill([latestData]);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        const totalFocus = chartFill.reduce((acc, row) => {
             const focusParts = row.focus_length.split(':');
             const focusHours = parseInt(focusParts[0]);
             const focusMinutes = parseInt(focusParts[1]);
@@ -36,7 +41,7 @@ const MyChart = () => {
             return acc + focusTimeInSeconds;
         }, 0);
 
-        const totalDistract = CHART_FILL.reduce((acc, row) => {
+        const totalDistract = chartFill.reduce((acc, row) => {
             const sessionParts = row.session_length.split(':');
             const focusParts = row.focus_length.split(':');
             const sessionHours = parseInt(sessionParts[0]);
@@ -56,9 +61,9 @@ const MyChart = () => {
 
         setTotalFocus(roundedTotalFocus);
         setTotalDistract(roundedTotalDistract);
-    }, [CHART_FILL]);
+    }, [chartFill]);
 
-    const focusPercentages = CHART_FILL.map((item) => parseInt(item.focus_percentage));
+    const focusPercentages = chartFill.map((item) => parseInt(item.focus_percentage));
     const distractedPercentages = focusPercentages.map((percentage) => 100 - percentage);
 
     const chartData = {
