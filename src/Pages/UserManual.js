@@ -6,9 +6,7 @@ import styles from "./usermanual.module.css"
 const UserManual = () => {
     return (
         <>
-            <div
-                className={styles.content}
-            >
+            <div className={styles.content}>
                 <VStack spacing={80} align="stretch">
                     <Divider height="1px" bg="#C1BBAE" />
                     <h2 className={styles.centerTitle}>
@@ -31,7 +29,7 @@ const UserManual = () => {
             <footer className={styles.footer}>
                 <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
                     <div className="sm:flex sm:items-center sm:justify-between">
-                        <a href="https://fokusin.com/" className="flex items-center mb-4 sm:mb-0">
+                        <a href="/" className="flex items-center mb-4 sm:mb-0">
                             <span className={`${styles.logo} self-center text-2xl font-semibold whitespace-nowrap`}>FokusIn</span>
                         </a>
                         <ul className="flex flex-wrap items-center mb-6 text-sm font-medium sm:mb-0">

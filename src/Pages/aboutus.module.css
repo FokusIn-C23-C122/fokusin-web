@@ -4,8 +4,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  background: var(--md-sys-color-background-light);
+  margin-top: 5%;
 }
 
 .centerTitle {

@@ -6,6 +6,12 @@
   align-items: center;
   min-height: 100vh;
   background-image: url("../assets/background.svg");
+  z-index: 1;
+}
+
+.color {
+  z-index: -1;
+  background: var(--md-sys-color-background-light);
 }
 
 .leftTitle {
