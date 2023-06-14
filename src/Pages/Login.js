@@ -4,7 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import AuthContext from './AuthContext';
 
 import { Card, Input, Button, Typography } from '@material-tailwind/react';
-import styles from './login.module.css'
+import styles from './login.module.css';
 import illustration from '../assets/illustration.svg';
 import { setCookie } from '../constants/cookies';
 
@@ -36,12 +36,12 @@ const Login = () => {
                 const data = await response.json();
                 console.log(data);
 
-                const tokenRefresh = 'Bearer ' + data.tokens["refresh"];
-                const tokenAccess = 'Bearer ' + data.tokens["access"]
-                setCookie("username", data.username);
-                setCookie("access", tokenAccess);
-                setCookie("refresh", tokenRefresh);
-                setCookie("isLoggedIn", true)
+                const tokenRefresh = 'Bearer ' + data.tokens['refresh'];
+                const tokenAccess = 'Bearer ' + data.tokens['access'];
+                setCookie('username', data.username);
+                setCookie('access', tokenAccess);
+                setCookie('refresh', tokenRefresh);
+                setCookie('isLoggedIn', true);
 
                 setIsLoggedIn(true);
 
@@ -72,21 +72,21 @@ const Login = () => {
                         <Input
                             size="lg"
                             label="Name"
-                            color='brown'
+                            color="brown"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
-                            />
+                        />
                         <Input
                             type="password"
                             size="lg"
                             label="Password"
-                            color='brown'
+                            color="brown"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
                     {errorMessage && <Typography color="red">{errorMessage}</Typography>}
-                    <Button color='brown' type="submit" className="mt-6" fullWidth>
+                    <Button color="brown" type="submit" className="mt-6" fullWidth>
                         Sign In
                     </Button>
                     <Typography color="gray" className="mt-4 text-center font-normal">

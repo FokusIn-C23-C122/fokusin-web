@@ -150,7 +150,7 @@ export default function Header() {
                 <div className="flex items-center justify-between">
                     <Typography
                         as="a"
-                        href="/home"
+                        href="/"
                         className="mr-4 cursor-pointer py-1.5 font-medium"
                         style={{ color: "#8C3913" }}
                     >

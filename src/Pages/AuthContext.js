@@ -1,37 +1,28 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import { getCookie } from '../constants/cookies';
+import React, { useState, useMemo, useEffect, createContext } from 'react';
+import { getCookie, setCookie } from '../constants/cookies';
 
-const AuthContext = React.createContext({
-    isLoggedIn: false,
-    setIsLoggedIn: () => { },
-});
+const AuthContext = createContext();
 
-export function AuthProvider({ children }) {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+export const AuthProvider = ({ children }) => {
+    const [isLoggedIn, setIsLoggedIn] = useState(!!getCookie('access'));
 
     useEffect(() => {
-        const storedIsLoggedIn = getCookie("isLoggedIn");
+        const storedIsLoggedIn = getCookie('isLoggedIn');
         if (storedIsLoggedIn) {
             setIsLoggedIn(JSON.parse(storedIsLoggedIn));
         }
     }, []);
 
-    useEffect(() => {
-        localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn));
-    }, [isLoggedIn]);
+    const updateIsLoggedIn = (value) => {
+        setIsLoggedIn(value);
+        setCookie('isLoggedIn', value);
+    };
 
     const value = useMemo(() => {
-        const updateIsLoggedIn = (value) => {
-            setIsLoggedIn(value);
-        };
         return { isLoggedIn, setIsLoggedIn: updateIsLoggedIn };
     }, [isLoggedIn]);
 
-    return (
-        <AuthContext.Provider value={value}>
-            {children}
-        </AuthContext.Provider>
-    );
-}
+    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};
 
 export default AuthContext;
