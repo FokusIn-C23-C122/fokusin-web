@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
     Navbar,
     Typography,
@@ -8,13 +8,13 @@ import {
     MenuList,
     MenuItem,
     Avatar,
-    IconButton,
 } from "@material-tailwind/react";
 import {
     ChevronDownIcon,
     PowerIcon,
 } from "@heroicons/react/24/outline";
 import { Link, useNavigate } from "react-router-dom";
+import logo from '../../assets/logo.png'
 import styles from "./header.module.css";
 import AuthContext from "../../Pages/AuthContext";
 import Logout from "../../Pages/Logout";
@@ -27,11 +27,11 @@ const profileMenuItems = [
 ];
 
 function ProfileMenu({ isLoggedIn, handleLogout }) {
-    const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const closeMenu = () => setIsMenuOpen(false);
     const profile = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-    <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clip-rule="evenodd" />
-</svg>`;
+        <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clip-rule="evenodd" />
+    </svg>`;
     const profileIcon = `data:image/svg+xml;base64,${btoa(profile)}`;
 
     return (
@@ -51,8 +51,7 @@ function ProfileMenu({ isLoggedIn, handleLogout }) {
                     />
                     <ChevronDownIcon
                         strokeWidth={2.5}
-                        className={`h-3 w-3 transition-transform ${isMenuOpen ? "rotate-180" : ""
-                            }`}
+                        className={`h-3 w-3 transition-transform ${isMenuOpen ? "rotate-180" : ""}`}
                     />
                 </Button>
             </MenuHandler>
@@ -63,9 +62,7 @@ function ProfileMenu({ isLoggedIn, handleLogout }) {
                         <MenuItem
                             key={label}
                             onClick={isLastItem ? handleLogout : closeMenu}
-                            className={`flex items-center gap-2 rounded ${isLastItem
-                                ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
-                                : ""
+                            className={`flex items-center gap-2 rounded ${isLastItem ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10" : ""
                                 }`}
                         >
                             {React.createElement(icon, {
@@ -88,15 +85,22 @@ function ProfileMenu({ isLoggedIn, handleLogout }) {
 }
 
 export default function Header() {
-    const [openNav, setOpenNav] = React.useState(false);
+    const [openNav, setOpenNav] = useState(false);
     const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
     const navigate = useNavigate();
 
-    React.useEffect(() => {
-        window.addEventListener(
-            "resize",
-            () => window.innerWidth >= 960 && setOpenNav(false)
-        );
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth >= 960) {
+                setOpenNav(false);
+            }
+        };
+
+        window.addEventListener("resize", handleResize);
+
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
     }, []);
 
     const handleLogout = () => {
@@ -107,29 +111,20 @@ export default function Header() {
     const navList = (
         <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
             <Typography as="li">
-                <Link
-                    to="/recording"
-                    className={`${styles.menu} ${!isLoggedIn ? "pointer-events-none opacity-50" : ""
-                        }`}
-                >
+                <Link to="/recording" className={`${styles.menu} ${!isLoggedIn ? "pointer-events-none opacity-50" : ""
+                    }`}>
                     Record
                 </Link>
             </Typography>
             <Typography as="li">
-                <Link
-                    to="/analysis"
-                    className={`${styles.menu} ${!isLoggedIn ? "pointer-events-none opacity-50" : ""
-                        }`}
-                >
+                <Link to="/analysis" className={`${styles.menu} ${!isLoggedIn ? "pointer-events-none opacity-50" : ""
+                    }`}>
                     Statistics
                 </Link>
             </Typography>
             <Typography as="li">
-                <Link
-                    to="/history"
-                    className={`${styles.menu} ${!isLoggedIn ? "pointer-events-none opacity-50" : ""
-                        }`}
-                >
+                <Link to="/history" className={`${styles.menu} ${!isLoggedIn ? "pointer-events-none opacity-50" : ""
+                    }`}>
                     History
                 </Link>
             </Typography>
@@ -148,14 +143,10 @@ export default function Header() {
                 style={{ backgroundColor: "#FFFBFF" }}
             >
                 <div className="flex items-center justify-between">
-                    <Typography
-                        as="a"
-                        href="/"
-                        className="mr-4 cursor-pointer py-1.5 font-medium"
-                        style={{ color: "#8C3913" }}
-                    >
-                        FokusIn
-                    </Typography>
+                    <Link to="/" className={styles.logo}>
+                        <img src={logo} alt="Logo" className="mr-4 cursor-pointer" style={{ width: "4em" }} />
+                    </Link>
+
                     <div className="flex items-center gap-4">
                         <div className="mr-4 hidden lg:block">{navList}</div>
                         {!isLoggedIn ? (
@@ -171,37 +162,39 @@ export default function Header() {
                                 handleLogout={handleLogout}
                             />
                         )}
-                        <IconButton
+                        <Button
                             variant="text"
-                            className="ml-auto h-6 w-6 hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
-                            ripple={false}
+                            color="gray"
                             onClick={() => setOpenNav(!openNav)}
+                            ripple={false}
+                            className="lg:hidden"
                         >
-                            {openNav ? (
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    className="h-6 w-6"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                >
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                            ) : (
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-6 w-6"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                >
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                                </svg>
-                            )}
-                        </IconButton>
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                className="h-6 w-6"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                strokeWidth={2}
+                            >
+                                {openNav ? (
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M6 18L18 6M6 6l12 12"
+                                    />
+                                ) : (
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M4 6h16M4 12h16m-7 6h7"
+                                    />
+                                )}
+                            </svg>
+                        </Button>
                     </div>
                 </div>
+                {openNav && <div className="lg:hidden">{navList}</div>}
             </Navbar>
             {!isLoggedIn && <Logout />}
         </>
