@@ -12,7 +12,28 @@ Chart.register(ArcElement);
 const MyChart = () => {
     const [totalFocus, setTotalFocus] = useState(0);
     const [totalDistract, setTotalDistract] = useState(0);
+    const [totalSession, setTotalSession] = useState(0);
     const [chartFill, setChartFill] = useState([]);
+
+    const formatDuration = (durationInSeconds) => {
+        const hours = Math.round(durationInSeconds / 3600);
+        const minutes = Math.round((durationInSeconds % 3600) / 60);
+        const seconds = Math.round(durationInSeconds);
+
+        let timeText = '';
+        if (hours > 0) {
+            timeText = `${hours} Hour${hours > 1 ? 's' : ''}`;
+        } else if (minutes > 0) {
+            timeText = `${minutes} Minute${minutes > 1 ? 's' : ''}`;
+        } else if (seconds > 0) {
+            timeText = `${(seconds / 60).toFixed(1)} Minute`;
+        }
+        else {
+            timeText = `${seconds} Second${seconds !== 1 ? 's' : ''}`;
+        }
+
+        return timeText;
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -32,6 +53,12 @@ const MyChart = () => {
     }, []);
 
     useEffect(() => {
+        const totalSession = chartFill.reduce((acc, row) => {
+            const sessionParts = row.session_length;
+            const sessionTimeInSeconds = sessionParts;
+            return acc + sessionTimeInSeconds;
+        }, 0);
+
         const totalFocus = chartFill.reduce((acc, row) => {
             const focusParts = row.focus_length;
             const focusTimeInSeconds = focusParts;
@@ -45,9 +72,11 @@ const MyChart = () => {
             return acc + distractTimeInSeconds;
         }, 0);
 
-        const roundedTotalFocus = Math.round((totalFocus / 3600) * 10) / 10;
-        const roundedTotalDistract = Math.round((totalDistract / 3600) * 10) / 10;
+        const roundedTotalSession = Math.round(totalSession);
+        const roundedTotalFocus = Math.round(totalFocus);
+        const roundedTotalDistract = Math.round(totalDistract);
 
+        setTotalSession(roundedTotalSession);
         setTotalFocus(roundedTotalFocus);
         setTotalDistract(roundedTotalDistract);
     }, [chartFill]);
@@ -90,21 +119,19 @@ const MyChart = () => {
             <div className={styles.firstSquare}>
                 <div className={styles.firstLine}></div>
                 <h2 className={styles.distracted}>Distracted</h2>
-                <p className={styles.totalHours}>{totalDistract}</p>
-                <p className={styles.distractHours}> hours</p>
+                <p className={styles.distractHours}>{formatDuration(totalDistract)}</p>
             </div>
             <div className={styles.secondSquare}>
                 <div className={styles.secondLine}></div>
                 <h2 className={styles.focused}>Focused</h2>
-                <p className={styles.totalHours}>{totalFocus}</p>
-                <p className={styles.focusHours}> hours</p>
+                <p className={styles.focusHours}>{formatDuration(totalFocus)}</p>
             </div>
             <div className={styles.circle}></div>
             <div className={styles.chartContainer}>
                 <Doughnut data={chartData} options={chartOptions} ref={chartRef} />
             </div>
-            <h1 className={styles.hours}>{totalFocus + totalDistract}</h1>
-            <p className={styles.desc}>Hours of Studying</p>
+            {/* <h1 className={styles.hours}>{formatDuration(totalSession)}</h1> */}
+            <p className={styles.desc}>{`${formatDuration(totalSession)} of Studying`}</p>
         </div>
     );
 };

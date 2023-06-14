@@ -2,6 +2,17 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { API_URL } from '../constants/Api';
 import Layout from '../components/Layout';
+import { getCookie } from '../constants/cookies';
+import styles from './recording.module.css'
+import {
+    Card,
+    CardBody,
+    CardFooter,
+    Typography,
+    Input,
+    Button
+} from "@material-tailwind/react";
+
 
 const Recording = () => {
     const videoRef = useRef(null);
@@ -49,7 +60,7 @@ const Recording = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NTEyMzQ2LCJpYXQiOjE2ODY2NDgzNDYsImp0aSI6Ijk4NjlhYTc4Y2EzYTRlMTc4MWVlMGEyODYzZGVjOThkIiwidXNlcl9pZCI6MX0.IUhnGIemshr4Lpr3-pP7AxXc0LwqY5klSJZCtE1clH0',
+                    'Authorization': getCookie("access"),
                 },
                 body: JSON.stringify({
                     start: 'true',
@@ -144,26 +155,46 @@ const Recording = () => {
         <>
             <Layout />
             {showPermissionPopup && (
-                <div>
-                    <p>Please allow access to your camera.</p>
-                    <button onClick={requestCameraPermission}>Allow</button>
+                <div className={styles.permissionContainer}>
+                    <Card className={`${styles.card} mt-6 w-96`}>
+                        <CardBody>
+                            <Typography variant="h5" color="blue-gray" className="mb-2">
+                                Please allow access to your camera
+                            </Typography>
+                        </CardBody>
+                        <CardFooter className="pt-0">
+                            <Button onClick={requestCameraPermission} color='brown'>Allow</Button>
+                        </CardFooter>
+                    </Card>
                 </div>
             )}
 
             {!showPermissionPopup && (
-                <div>
-                    <input type="text" value={learnToday} onChange={handleLearnTodayChange} />
+                <div className={styles.videoContainer}>
+                    <video ref={videoRef} autoPlay muted className={styles.roundedBorder} />
                 </div>
             )}
 
             {!showPermissionPopup && (
-                <div>
-                    <button onClick={startRecording}>Start Session</button>
-                    <button onClick={stopRecording}>End Session</button>
+                <div className={styles.controlsContainer}>
+                    <div className="w-80">
+                        <Input
+                            color='brown'
+                            label="Tell us what you’re going to learn today"
+                            value={learnToday}
+                            onChange={handleLearnTodayChange}
+                        />
+                    </div>
+                    <div className={styles.buttonsContainer}>
+                        <Button color="brown" className={styles.recordButton} onClick={startRecording}>
+                            Start Session
+                        </Button>
+                        <Button color="red" onClick={stopRecording}>
+                            End Session
+                        </Button>
+                    </div>
                 </div>
             )}
-
-            {!showPermissionPopup && <video ref={videoRef} autoPlay muted />}
         </>
     );
 };

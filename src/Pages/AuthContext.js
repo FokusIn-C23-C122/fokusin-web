@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
+import { getCookie } from '../constants/cookies';
 
 const AuthContext = React.createContext({
     isLoggedIn: false,
@@ -9,7 +10,7 @@ export function AuthProvider({ children }) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
-        const storedIsLoggedIn = localStorage.getItem('isLoggedIn');
+        const storedIsLoggedIn = getCookie("isLoggedIn");
         if (storedIsLoggedIn) {
             setIsLoggedIn(JSON.parse(storedIsLoggedIn));
         }

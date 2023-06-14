@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { API_URL } from '../constants/Api';
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import AuthContext from './AuthContext';
 
 import { Card, Input, Button, Typography } from '@material-tailwind/react';
@@ -71,31 +70,34 @@ const Register = () => {
                             size="lg"
                             label="Name"
                             value={username}
+                            color='brown'
                             onChange={(e) => setUsername(e.target.value)}
-                        />
+                            />
                         <Input
                             size="lg"
                             label="Email"
                             value={email}
+                            color='brown'
                             onChange={(e) => setEmail(e.target.value)}
-                        />
+                            />
                         <Input
                             type="password"
                             size="lg"
                             label="Password"
                             value={password}
+                            color='brown'
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
                     {errorMessage && <Typography color="red">{errorMessage}</Typography>}
-                    <Button type="submit" className="mt-6" fullWidth>
+                    <Button color='brown' type="submit" className="mt-6" fullWidth>
                         Register
                     </Button>
                     <Typography color="gray" className="mt-4 text-center font-normal">
                         Already have an account?{' '}
                         <Link
                             to="/login"
-                            className="font-medium text-blue-500 transition-colors hover:text-blue-700"
+                            className="font-medium text-brown-500 transition-colors hover:text-brown-700"
                         >
                             Sign In
                         </Link>

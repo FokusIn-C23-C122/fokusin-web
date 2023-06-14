@@ -36,14 +36,14 @@
 
 .desc {
   position: absolute;
-  top: 71%;
+  top: 64%;
   left: 50%;
   transform: translateX(-50%);
   margin: 0;
   width: 131px;
   height: 57px;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 700;
   font-size: 30px;
   line-height: 36px;
   text-align: center;
@@ -109,7 +109,7 @@
   position: absolute;
   width: 362px;
   height: 58px;
-  left: 52%;
+  left: 53%;
   font-style: normal;
   font-weight: 700;
   font-size: 30px;
@@ -124,10 +124,10 @@
 .focusHours {
   position: absolute;
   margin-left: 20px;
-  left: 62%;
+  left: 50%;
   top: 60%;
-  font-weight: 600;
-  font-size: 24px;
+  font-weight: 500;
+  font-size: 28px;
   line-height: 32px;
   display: flex;
   align-items: center;
@@ -140,7 +140,7 @@
   position: absolute;
   width: 362px;
   height: 58px;
-  left: 50%;
+  left: 52%;
   font-style: normal;
   font-weight: 700;
   font-size: 30px;
@@ -155,24 +155,13 @@
 .distractHours {
   position: absolute;
   margin-left: 20px;
-  left: 62%;
+  left: 50%;
   top: 60%;
-  font-weight: 600;
-  font-size: 24px;
-  line-height: 32px;
+  font-weight: 500;
+  font-size: 28px;
   display: flex;
   align-items: center;
   text-align: center;
   color: var(--md-sys-color-on-secondary-container-light);
   z-index: -1;
-}
-
-.totalHours {
-  position: absolute;
-  left: 50%;
-  top: 42%;
-  font-weight: 800;
-  font-size: 48px;
-  z-index: -1;
-  color: var(--md-sys-color-on-surface-light);
 }

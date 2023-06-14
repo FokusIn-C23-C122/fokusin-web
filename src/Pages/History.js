@@ -21,11 +21,21 @@ const History = () => {
     const formatDuration = (durationInSeconds) => {
         const hours = Math.round(durationInSeconds / 3600);
         const minutes = Math.round((durationInSeconds % 3600) / 60);
+        const seconds = Math.round(durationInSeconds);
 
-        const hoursText = hours > 0 ? `${hours} hour${hours > 1 ? 's' : ''}` : '';
-        const minutesText = minutes > 0 ? `${minutes} minute${minutes > 1 ? 's' : ''}` : '';
+        let timeText = '';
+        if (hours > 0) {
+            timeText = `${hours} hour${hours > 1 ? 's' : ''}`;
+        } else if (minutes > 0) {
+            timeText = `${minutes} minute${minutes > 1 ? 's' : ''}`;
+        } else if (seconds > 0) {
+            timeText = `${(seconds / 60).toFixed(1)} minute`;
+        }
+        else {
+            timeText = `${seconds} second${seconds !== 1 ? 's' : ''}`;
+        }
 
-        return `${hoursText} ${minutesText}`.trim();
+        return timeText;
     };
 
     useEffect(() => {
@@ -172,8 +182,8 @@ const History = () => {
                                 </tr>
                             </thead>
                             <tbody className={styles.tbody}>
-                                {filteredTableData.map(({ date, time, description, session_length, focus_length }, index) => (
-                                    <tr key={`${date}-${index}`} className='even:bg-brown-50/50'>
+                                {filteredTableData.map(({ date, time, description, session_length, focus_length, id }) => (
+                                    <tr key={`${date}-${id}`} className='even:bg-brown-50/50'>
                                         <td className="p-4">
                                             <Typography variant="small" className="font-normal">
                                                 {formatDate(date)}
