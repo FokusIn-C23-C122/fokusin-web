@@ -7,21 +7,33 @@ const UserManual = () => {
     return (
         <>
             <div className={styles.content}>
-                <VStack spacing={80} align="stretch">
+                <VStack spacing={50} align="stretch">
                     <Divider height="1px" bg="#C1BBAE" />
                     <h2 className={styles.centerTitle}>
                         User Manual
                     </h2>
                     <p className={styles.centerBody}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus.
-                        Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus.
-                        Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra,
-                        per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar. Donec ut rhoncus ex.
-                        Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel bibendum lorem. Morbi convallis convallis diam sit amet lacinia.
-                        Aliquam in elementum tellus. Curabitur tempor quis eros tempus lacinia. Nam bibendum pellentesque quam a convallis. Sed ut vulputate nisi.
-                        Integer in felis sed leo vestibulum venenatis. Suspendisse quis arcu sem. Aenean feugiat ex eu vestibulum vestibulum. Morbi a eleifend magna.
-                        Nam metus lacus, porttitor eu mauris a, blandit ultrices nibh. Mauris sit amet magna non ligula vestibulum eleifend. Nulla varius volutpat turpis sed lacinia.
-                        Nam eget mi in purus lobortis eleifend. Sed nec ante dictum sem condimentum ullamcorper quis venenatis nisi. Proin vitae facilisis nisi, ac posuere leo.
+                        Tracking your focus and performance during online learning sessions has never been easier with FokusIn. Our user-friendly interface ensures a seamless experience from start to finish. Here's how you can make the most of our innovative platform:
+                    </p>
+                    <ol type='1' className={styles.guide}>
+                        <li>
+                            1. Click on "Recording": Begin by selecting the "Recording" option on our website. This will initiate the process of tracking your focus and engagement during your learning session.
+                        </li>
+                        <li>
+                            2. Grant camera access: To accurately measure your level of focus, we require access to your camera. Rest assured that your privacy is our utmost priority, and the camera access is solely used for facial expression recognition.
+                        </li>
+                        <li>
+                            3. Start your session: Once you have granted camera access, you're ready to start your online learning session. Dive into your educational materials, lectures, or training courses as you normally would.
+                        </li>
+                        <li>
+                            4. End Session: When you're finished with your learning session, simply click on the "End Session" button. This will conclude the tracking process and allow us to analyze your performance.
+                        </li>
+                        <li>
+                            5. Performance insights: After ending your session, you will gain access to a comprehensive overview of your performance. Additionally, by clicking on "Statistics," you can view your learning statistics day by day. Our intelligent system utilizes facial expression recognition to accurately measure your focus levels, providing valuable data to optimize your learning outcomes.
+                        </li>
+                    </ol>
+                    <p className={styles.centerBody}>
+                        With FokusIn, you are in control of your learning journey. Gain valuable insights into your focus and engagement, and unlock your full potential in the world of online learning. Start using FokusIn today and experience a new level of interactive and impactful e-learning.
                     </p>
 
                 </VStack>

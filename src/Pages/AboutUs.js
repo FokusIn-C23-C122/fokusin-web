@@ -13,14 +13,19 @@ const AboutUs = () => {
                     </h2>
                     <HStack spacing="30px" justify="center">
                         <p className={styles.leftBody}>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus.
-                            Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar.
-                            Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel bibendum lorem. Morbi convallis convallis diam sit amet lacinia. Aliquam in elementum tellus.
+                            At FokusIn, we are passionate about revolutionizing online learning. With the increasing
+                            demand for e-learning, learners face significant challenges in maintaining focus and engagement.
+                            Distractions abound in the digital world, making it difficult for learners to stay on track.
+                            To tackle this challenge, we have developed a cutting-edge solution leveraging facial recognition
+                            technology. Our mission is to provide valuable insights into e-learning by measuring learners’ focus, 
+                            creating comprehensive reports and personalized feedback to enhance their
+                            learning outcomes.
                         </p>
                         <p className={styles.leftBody}>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus.
-                            Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar.
-                            Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu tempor urna. Curabitur vel bibendum lorem. Morbi convallis convallis diam sit amet lacinia. Aliquam in elementum tellus.
+                            We are dedicated to equipping learners with the tools they need to succeed. Our innovative approach
+                            helps learners overcome distractions and gain a deeper understanding of their own learning patterns.
+                            Join us in reshaping the online learning landscape and unlock your full potential with FokusIn.
+                            Together, we can create a more focused, engaging, and impactful e-learning experience for all.
                         </p>
                     </HStack>
                     <h2 className={styles.centerTagline}>

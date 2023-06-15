@@ -6,6 +6,7 @@ import 'chartjs-plugin-datalabels';
 import Layout from '../components/Layout';
 import styles from './analysis.module.css';
 import { API_URL } from '../constants/Api';
+import { getCookie } from '../constants/cookies';
 
 Chart.register(ArcElement);
 
@@ -38,7 +39,12 @@ const MyChart = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`${API_URL}/api/analysis/`);
+                const response = await fetch(`${API_URL}/api/analysis/`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': getCookie("access"),
+                    },
+                });
                 const data = await response.json();
                 if (Array.isArray(data) && data.length > 0) {
                     const latestData = data[data.length - 1];
@@ -54,21 +60,19 @@ const MyChart = () => {
 
     useEffect(() => {
         const totalSession = chartFill.reduce((acc, row) => {
-            const sessionParts = row.session_length;
-            const sessionTimeInSeconds = sessionParts;
+            const sessionTimeInSeconds = row.session_length;
             return acc + sessionTimeInSeconds;
         }, 0);
 
         const totalFocus = chartFill.reduce((acc, row) => {
-            const focusParts = row.focus_length;
-            const focusTimeInSeconds = focusParts;
+            const focusTimeInSeconds = row.focus_length;
             return acc + focusTimeInSeconds;
         }, 0);
 
         const totalDistract = chartFill.reduce((acc, row) => {
-            const sessionParts = row.session_length;
-            const focusParts = row.focus_length;
-            const distractTimeInSeconds = sessionParts - focusParts;
+            const sessionTimeInSeconds = row.session_length;
+            const focusTimeInSeconds = row.focus_length;
+            const distractTimeInSeconds = sessionTimeInSeconds - focusTimeInSeconds;
             return acc + distractTimeInSeconds;
         }, 0);
 
@@ -114,7 +118,7 @@ const MyChart = () => {
     const chartRef = useRef(null);
 
     return (
-        <div>
+        <div className={styles.container}>
             <h2 className={styles.titleOne}>Here is your learning progress report</h2>
             <div className={styles.firstSquare}>
                 <div className={styles.firstLine}></div>
@@ -126,11 +130,10 @@ const MyChart = () => {
                 <h2 className={styles.focused}>Focused</h2>
                 <p className={styles.focusHours}>{formatDuration(totalFocus)}</p>
             </div>
-            <div className={styles.circle}></div>
             <div className={styles.chartContainer}>
+            <div className={styles.circle}></div>
                 <Doughnut data={chartData} options={chartOptions} ref={chartRef} />
             </div>
-            {/* <h1 className={styles.hours}>{formatDuration(totalSession)}</h1> */}
             <p className={styles.desc}>{`${formatDuration(totalSession)} of Studying`}</p>
         </div>
     );

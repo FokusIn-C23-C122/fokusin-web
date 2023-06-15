@@ -9,8 +9,9 @@
 }
 
 .centerTitle {
-  height: 40px;
-  top: 254px;
+  /* height: 40px; */
+  /* top: 254px; */
+  margin-top: 8%;
   font-weight: 700;
   font-size: 36px;
   line-height: 40px;
@@ -20,22 +21,27 @@
 }
 
 .centerBody {
-  padding-top: 24px;
   width: 1024px;
-  height: 96px;
   left: 128px;
-  top: 318px;
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
-  line-height: 24px;
-  display: flex;
   text-align: center;
   align-items: center;
   color: var(--md-sys-color-on-surface-light);
 }
 
+.guide {
+  width: 1024px;
+  left: 128px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--md-sys-color-on-surface-light);
+}
+
 .divider {
+  margin-top: 51%;
   width: 1024px;
   height: 0px;
   left: 128px;

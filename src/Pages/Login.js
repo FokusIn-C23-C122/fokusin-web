@@ -13,7 +13,7 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
-    const { setIsLoggedIn } = useContext(AuthContext);
+    const { setIsLoggedIn, setUserName } = useContext(AuthContext); 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -44,6 +44,7 @@ const Login = () => {
                 setCookie('isLoggedIn', true);
 
                 setIsLoggedIn(true);
+                setUserName(data.username);
 
                 navigate('/');
             } else {
