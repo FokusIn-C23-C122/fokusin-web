@@ -1,0 +1,1 @@
+export const API_URL = 'https://fokusin-api-ejh5i5qlpq-et.a.run.app'

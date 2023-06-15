@@ -1,0 +1,114 @@
+@import "../styles/css/tokens.css";
+
+.table-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.table {
+  margin: 2% 2% 2% 3%;
+  width: 1410px;
+  height: 392px;
+}
+
+.thead {
+  background: var(--md-sys-color-on-tertiary-container-light);
+  width: 1400px;
+  height: 38px;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 20px;
+  color: var(--md-sys-color-tertiary-container-light);
+}
+
+.tbody {
+  background: var(--md-sys-color-tertiary-container-light);
+  color: var(--md-sys-color-on-tertiary-container-light);
+}
+
+.totalHours {
+  background: var(--md-sys-color-tertiary-container-light);
+  margin-left: 38%;
+  margin-top: 3%;
+  box-shadow: 5px 10px 35px rgba(33, 27, 0, 0.25);
+  border-radius: 15px;
+  width: 400px;
+  height: 200px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.focusContainer {
+  display: flex;
+}
+
+.focus {
+  position: absolute;
+  width: 64.05px;
+  height: 59.2px;
+  background: var(--md-sys-color-on-tertiary-fixed-variant);
+  opacity: 0.74;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+  margin-top: 30px;
+  left: 620px;
+  margin-right: 8px;
+}
+
+.totalFocus {
+  margin-left: 20px;
+  margin-top: 110px;
+  text-align: center;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 32px;
+  color: var(--md-sys-color-on-tertiary-container-light);
+}
+
+.focused {
+  margin-left: 20px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--md-sys-color-on-tertiary-container-light);
+}
+
+.distractContainer {
+  display: flex;
+}
+
+.distract {
+  position: absolute;
+  width: 64.05px;
+  height: 59.2px;
+  background: var(--md-sys-color-on-tertiary-fixed-variant);
+  opacity: 0.74;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+  margin-top: 30px;
+  left: 845px;
+}
+
+.totalDistract {
+  margin-right: 20px;
+  margin-top: 110px;
+  text-align: center;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 32px;
+  color: var(--md-sys-color-on-tertiary-container-light);
+}
+
+.distracted {
+  margin-right: 20px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--md-sys-color-on-tertiary-container-light);
+}

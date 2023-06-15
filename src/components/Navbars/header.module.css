@@ -1,0 +1,43 @@
+@import "../../styles/css/tokens.css";
+
+.button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 12px;
+  gap: 6px;
+  width: 90px;
+  height: 40px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--md-sys-color-tertiary-container-light);
+  background: var(--md-sys-color-on-tertiary-container-light);
+  border-radius: 4px;
+}
+
+.menu {
+  height: 24px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  display: flex;
+  align-items: flex-end;
+  color: var(--md-sys-color-on-surface-light);
+  transition: color 0.35s ease-in-out;
+}
+
+.menu:hover {
+  color: var(--md-sys-color-surface-tint-light);
+}
+
+.menu:focus {
+  color: var(--md-sys-color-surface-tint-light);
+}
+
+.navbar {
+  color: var(--md-sys-color-surface-light);
+}

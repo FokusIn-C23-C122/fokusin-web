@@ -1,0 +1,5 @@
+@import "../../styles/css/tokens.css";
+
+.container {
+  background: var(--md-sys-color-background-light);
+}

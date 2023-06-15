@@ -3,15 +3,47 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@chakra-ui/react": "^2.7.0",
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
+    "@headlessui/react": "^1.7.14",
+    "@material-tailwind/react": "^2.0.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.4.0",
+    "chart.js": "4.3.0",
+    "chartjs-plugin-datalabels": "2.2.0",
+    "classnames": "^2.3.2",
+    "framer-motion": "^10.12.16",
+    "js-cookie": "^3.0.5",
+    "js-cookies": "^1.0.4",
+    "moment": "^2.29.4",
+    "moment-timezone": "^0.5.43",
     "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
+    "react-media-recorder": "^1.6.6",
+    "react-router-dom": "^6.11.2",
+    "react-webcam": "^7.1.1",
+    "simple-peer": "^9.11.1",
+    "socket.io-client": "^4.6.2",
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
-    "react-scripts": "5.0.1"
+    "@babel/core": "^7.22.1",
+    "@babel/preset-env": "^7.22.4",
+    "@babel/preset-react": "^7.22.3",
+    "@iconify/react": "^4.1.0",
+    "autoprefixer": "^10.4.14",
+    "babel-loader": "^9.1.2",
+    "css-loader": "^6.8.1",
+    "postcss": "^8.4.24",
+    "react-scripts": "^5.0.1",
+    "style-loader": "^3.3.3",
+    "tailwindcss": "^3.3.2",
+    "webpack": "^5.84.1",
+    "webpack-cli": "^5.1.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -36,5 +68,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "description": "## FokusIn",
+  "main": "postcss.config.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

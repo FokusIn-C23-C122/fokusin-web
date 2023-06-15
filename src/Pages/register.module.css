@@ -1,0 +1,18 @@
+@import "../styles/css/tokens.css";
+
+.container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 100vh;
+  margin-right: 5%;
+}
+
+.card {
+  background: var(--md-sys-color-surface-light);
+  padding: 2%;
+}
+
+.illustrationContainer {
+  margin-right: 15%;
+}

@@ -1,0 +1,41 @@
+@import "../styles/css/tokens.css";
+
+.permissionContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 5%;
+  height: 100vh;
+}
+
+.card {
+  text-align: center;
+}
+
+.roundedBorder {
+  border-radius: 10px;
+}
+
+.videoContainer {
+  width: 100%;
+  margin-top: 5%;
+  display: flex;
+  justify-content: center;
+}
+
+.recordButton {
+  background: var(--md-sys-color-on-primary-container-light);
+}
+
+.controlsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.buttonsContainer {
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
+}
