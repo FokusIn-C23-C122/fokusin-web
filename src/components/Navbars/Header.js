@@ -12,6 +12,7 @@ import {
 import {
     ChevronDownIcon,
     PowerIcon,
+    UserIcon,
 } from "@heroicons/react/24/outline";
 import { Link, useNavigate } from "react-router-dom";
 import logo from '../../assets/logo.png'
@@ -19,19 +20,25 @@ import styles from "./header.module.css";
 import AuthContext from "../../Pages/AuthContext";
 import Logout from "../../Pages/Logout";
 
-const profileMenuItems = [
-    {
-        label: "Log Out",
-        icon: PowerIcon,
-    },
-];
 
-function ProfileMenu({ isLoggedIn, handleLogout }) {
+function ProfileMenu({ isLoggedIn, handleLogout, userName }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const closeMenu = () => setIsMenuOpen(false);
+    
+    const profileMenuItems = [
+        {
+            label: `Signed in as ${userName}`,
+            icon: UserIcon,
+        },
+        {
+            label: "Log Out",
+            icon: PowerIcon,
+        },
+    ];
+
     const profile = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-        <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clip-rule="evenodd" />
-    </svg>`;
+            <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clip-rule="evenodd" />
+        </svg>`;
     const profileIcon = `data:image/svg+xml;base64,${btoa(profile)}`;
 
     return (
@@ -86,7 +93,8 @@ function ProfileMenu({ isLoggedIn, handleLogout }) {
 
 export default function Header() {
     const [openNav, setOpenNav] = useState(false);
-    const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+    const { isLoggedIn, setIsLoggedIn, userName } = useContext(AuthContext);
+    const [setUserName] = useState(userName);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -105,6 +113,7 @@ export default function Header() {
 
     const handleLogout = () => {
         setIsLoggedIn(false);
+        setUserName("");
         navigate("/logout");
     };
 
@@ -160,6 +169,7 @@ export default function Header() {
                                 setIsLoggedIn={setIsLoggedIn}
                                 isLoggedIn={isLoggedIn}
                                 handleLogout={handleLogout}
+                                userName={userName}
                             />
                         )}
                         <Button

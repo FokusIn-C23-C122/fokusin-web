@@ -18,13 +18,12 @@
   width: 372px;
   height: 40px;
   left: 128px;
-  top: 254px;
   font-weight: 700;
   font-size: 36px;
   line-height: 40px;
-  display: flex;
   align-items: center;
   color: var(--md-sys-color-on-surface-light);
+  z-index: 2;
 }
 
 .highlightedText {
@@ -40,13 +39,12 @@
   padding-top: 24px;
   width: 483px;
   height: 96px;
+  margin-bottom: 25%;
   left: 128px;
-  top: 318px;
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
-  display: flex;
   align-items: center;
   color: var(--md-sys-color-on-surface-light);
 }

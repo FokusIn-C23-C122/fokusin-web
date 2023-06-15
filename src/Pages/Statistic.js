@@ -5,6 +5,7 @@ import { Chart, registerables } from 'chart.js';
 import Layout from '../components/Layout';
 import styles from './statistic.module.css';
 import { API_URL } from '../constants/Api';
+import { getCookie } from '../constants/cookies';
 
 Chart.register(...registerables);
 
@@ -17,7 +18,12 @@ const Statistic = () => {
     useEffect(() => {
         const fetchChartData = async () => {
             try {
-                const response = await fetch(`${API_URL}/api/analysis/`);
+                const response = await fetch(`${API_URL}/api/analysis/`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': getCookie("access"),
+                    },
+                });
                 const data = await response.json();
                 setChartData(data);
                 setFilteredChartData(data);

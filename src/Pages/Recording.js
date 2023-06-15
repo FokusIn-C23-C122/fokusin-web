@@ -86,7 +86,7 @@ const Recording = () => {
             const response = await fetch(`${API_URL}/api/analysis/${id}`, {
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'multipart/form-data',
                 },
                 body: JSON.stringify({
                     ongoing: 'false',
@@ -130,6 +130,9 @@ const Recording = () => {
                 try {
                     const response = await fetch(`${API_URL}/api/analysis/${id}`, {
                         method: 'PUT',
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                        },
                         body: formData,
                     });
 

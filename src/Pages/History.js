@@ -4,11 +4,11 @@ import { Icon } from '@iconify/react';
 import moment from 'moment-timezone';
 
 import Layout from '../components/Layout';
-import styles from './history.module.css'
+import styles from './history.module.css';
 import { API_URL } from '../constants/Api';
+import { getCookie } from '../constants/cookies';
 
 const TABLE_HEAD = ["Date", "Time", "Description", "Total Sessions", "Total Focus"];
-
 
 const History = () => {
     const [selectedFilter, setSelectedFilter] = useState('All');
@@ -19,9 +19,9 @@ const History = () => {
     const [noDataMessage, setNoDataMessage] = useState('');
 
     const formatDuration = (durationInSeconds) => {
-        const hours = Math.round(durationInSeconds / 3600);
-        const minutes = Math.round((durationInSeconds % 3600) / 60);
-        const seconds = Math.round(durationInSeconds);
+        const hours = Math.floor(durationInSeconds / 3600);
+        const minutes = Math.floor((durationInSeconds % 3600) / 60);
+        const seconds = durationInSeconds;
 
         let timeText = '';
         if (hours > 0) {
@@ -41,7 +41,12 @@ const History = () => {
     useEffect(() => {
         const fetchChartData = async () => {
             try {
-                const response = await fetch(`${API_URL}/api/analysis/`);
+                const response = await fetch(`${API_URL}/api/analysis/`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': getCookie("access"),
+                    },
+                });
                 const data = await response.json();
                 setTableData(data);
                 setFilteredTableData(data);
@@ -55,15 +60,14 @@ const History = () => {
 
     useEffect(() => {
         const totalFocus = filteredTableData.reduce((acc, row) => {
-            const focusParts = row.focus_length;
-            const focusTimeInSeconds = focusParts;
+            const focusTimeInSeconds = row.focus_length;
             return acc + focusTimeInSeconds;
         }, 0);
 
         const totalDistract = filteredTableData.reduce((acc, row) => {
-            const sessionParts = row.session_length;
-            const focusParts = row.focus_length;
-            const distractTimeInSeconds = sessionParts - focusParts;
+            const sessionTimeInSeconds = row.session_length;
+            const focusTimeInSeconds = row.focus_length;
+            const distractTimeInSeconds = sessionTimeInSeconds - focusTimeInSeconds;
             return acc + distractTimeInSeconds;
         }, 0);
 
@@ -81,25 +85,22 @@ const History = () => {
         if (filter === 'All') {
             filtered = tableData;
         } else if (filter === 'LastDay') {
-            const lastDay = new Date();
-            lastDay.setDate(lastDay.getDate() - 1);
+            const lastDay = moment().subtract(1, 'day').startOf('day');
             filtered = tableData.filter((row) => {
-                const rowDate = new Date(row.date);
-                return rowDate.toDateString() === lastDay.toDateString();
+                const rowDate = moment(row.date);
+                return rowDate.isSame(lastDay, 'day');
             });
         } else if (filter === 'LastWeek') {
-            const lastWeek = new Date();
-            lastWeek.setDate(lastWeek.getDate() - 7);
+            const lastWeek = moment().subtract(1, 'week').startOf('day');
             filtered = tableData.filter((row) => {
-                const rowDate = new Date(row.date);
-                return rowDate >= lastWeek;
+                const rowDate = moment(row.date);
+                return rowDate.isSameOrAfter(lastWeek);
             });
         } else if (filter === 'LastMonth') {
-            const lastMonth = new Date();
-            lastMonth.setMonth(lastMonth.getMonth() - 1);
+            const lastMonth = moment().subtract(1, 'month').startOf('day');
             filtered = tableData.filter((row) => {
-                const rowDate = new Date(row.date);
-                return rowDate >= lastMonth;
+                const rowDate = moment(row.date);
+                return rowDate.isSameOrAfter(lastMonth);
             });
         }
 
@@ -108,28 +109,13 @@ const History = () => {
     };
 
     const formatTime = (timeString) => {
-        const timeParts = timeString.split(':');
-
-        const date = new Date();
-        date.setUTCHours(timeParts[0]);
-        date.setUTCMinutes(timeParts[1]);
-        date.setUTCSeconds(timeParts[2]);
-
-        const options = {
-            timeZone: "Asia/Bangkok",
-            hour12: true,
-            hour: "numeric",
-            minute: "numeric",
-            second: "numeric",
-        };
-
-        return date.toLocaleString("en-US", options);
+        const date = moment(timeString, 'HH:mm:ss').utcOffset('+07:00');
+        return date.format('LT');
     };
 
     const formatDate = (dateString) => {
-        const date = moment(dateString);
-        const formattedDate = date.tz('Asia/Bangkok').format('dddd, MMMM Do YYYY');
-        return formattedDate;
+        const date = moment(dateString).tz('Asia/Bangkok');
+        return date.format('dddd, MMMM Do YYYY');
     };
 
     return (

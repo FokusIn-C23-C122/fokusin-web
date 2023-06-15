@@ -21,16 +21,13 @@ const Home = () => {
                             <h2 className={styles.leftTitle}>
                                 Welcome <span className={styles.space}></span> to <span className={styles.highlightedText}>Fokus</span>In!
                             </h2>
-
                             <p className={styles.leftBody}>
-                                FokusIn is a dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac
-                                aliquet odio mattis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos
-                                himenaeos.
-                            </p>
-                            <p className={styles.leftBody}>
-                                FokusIn is a dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac
-                                aliquet odio mattis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos
-                                himenaeos.
+                                FokusIn is an innovative application designed to optimize your online learning experience.
+                                By utilizing facial expression recognition, we accurately measure and analyze your focus levels
+                                during lessons. Our technology provides real-time insights, allowing you to understand your
+                                engagement and make necessary adjustments. Whether you're a student, educator, or professional,
+                                FokusIn helps you unlock your full learning potential in the digital age. Maximize your focus,
+                                enhance your performance, and achieve your goals with FokusIn! 🔎
                             </p>
                         </section>
                         <VStack spacing={40} align="stretch">
