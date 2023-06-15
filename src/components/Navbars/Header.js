@@ -24,11 +24,7 @@ import Logout from "../../Pages/Logout";
 function ProfileMenu({ isLoggedIn, handleLogout }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const closeMenu = () => setIsMenuOpen(false);
-    const { userName } = useContext(AuthContext); 
 
-    useEffect(() => {
-        localStorage.setItem("userName", userName);
-    }, [userName]);
 
     const profileMenuItems = [
         {

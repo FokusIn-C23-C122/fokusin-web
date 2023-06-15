@@ -13,7 +13,7 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
-    const { setIsLoggedIn, setUserName } = useContext(AuthContext); 
+    const { setIsLoggedIn, setUserName } = useContext(AuthContext);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -42,6 +42,8 @@ const Login = () => {
                 setCookie('access', tokenAccess);
                 setCookie('refresh', tokenRefresh);
                 setCookie('isLoggedIn', true);
+                localStorage.setItem("userName", data.username);
+
 
                 setIsLoggedIn(true);
                 setUserName(data.username);
