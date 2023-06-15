@@ -118,7 +118,7 @@ const MyChart = () => {
     const chartRef = useRef(null);
 
     return (
-        <div>
+        <div className={styles.container}>
             <h2 className={styles.titleOne}>Here is your learning progress report</h2>
             <div className={styles.firstSquare}>
                 <div className={styles.firstLine}></div>
@@ -130,11 +130,10 @@ const MyChart = () => {
                 <h2 className={styles.focused}>Focused</h2>
                 <p className={styles.focusHours}>{formatDuration(totalFocus)}</p>
             </div>
-            <div className={styles.circle}></div>
             <div className={styles.chartContainer}>
+            <div className={styles.circle}></div>
                 <Doughnut data={chartData} options={chartOptions} ref={chartRef} />
             </div>
-            {/* <h1 className={styles.hours}>{formatDuration(totalSession)}</h1> */}
             <p className={styles.desc}>{`${formatDuration(totalSession)} of Studying`}</p>
         </div>
     );

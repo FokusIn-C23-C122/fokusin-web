@@ -157,7 +157,7 @@ const History = () => {
                     </div>
 
                     {filteredTableData.length === 0 ? (
-                        <p>{noDataMessage}</p>
+                        <p className={styles.noData}>{noDataMessage}</p>
                     ) : (
                         <table className="w-full min-w-max table-auto text-center">
                             <thead className={styles.thead}>

@@ -21,13 +21,18 @@ import AuthContext from "../../Pages/AuthContext";
 import Logout from "../../Pages/Logout";
 
 
-function ProfileMenu({ isLoggedIn, handleLogout, userName }) {
+function ProfileMenu({ isLoggedIn, handleLogout }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const closeMenu = () => setIsMenuOpen(false);
-    
+    const { userName } = useContext(AuthContext); 
+
+    useEffect(() => {
+        localStorage.setItem("userName", userName);
+    }, [userName]);
+
     const profileMenuItems = [
         {
-            label: `Signed in as ${userName}`,
+            label: `Signed in as ${localStorage.getItem("userName")}`,
             icon: UserIcon,
         },
         {
@@ -40,6 +45,7 @@ function ProfileMenu({ isLoggedIn, handleLogout, userName }) {
             <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clip-rule="evenodd" />
         </svg>`;
     const profileIcon = `data:image/svg+xml;base64,${btoa(profile)}`;
+
 
     return (
         <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
@@ -93,8 +99,8 @@ function ProfileMenu({ isLoggedIn, handleLogout, userName }) {
 
 export default function Header() {
     const [openNav, setOpenNav] = useState(false);
-    const { isLoggedIn, setIsLoggedIn, userName } = useContext(AuthContext);
-    const [setUserName] = useState(userName);
+    const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+    const { userName, setUserName } = useContext(AuthContext); // Fix: Remove const before setUserName
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -111,9 +117,15 @@ export default function Header() {
         };
     }, []);
 
+    useEffect(() => {
+        const storedUserName = localStorage.getItem("userName");
+        if (storedUserName) {
+            setUserName(storedUserName);
+        }
+    }, [setUserName]);
+
     const handleLogout = () => {
         setIsLoggedIn(false);
-        setUserName("");
         navigate("/logout");
     };
 

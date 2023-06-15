@@ -3,16 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { API_URL } from '../constants/Api';
 import Layout from '../components/Layout';
 import { getCookie } from '../constants/cookies';
-import styles from './recording.module.css'
+import styles from './recording.module.css';
 import {
     Card,
     CardBody,
     CardFooter,
     Typography,
     Input,
-    Button
-} from "@material-tailwind/react";
-
+    Button,
+} from '@material-tailwind/react';
 
 const Recording = () => {
     const videoRef = useRef(null);
@@ -25,9 +24,13 @@ const Recording = () => {
 
     const requestCameraPermission = async () => {
         try {
-            const permissionResult = await navigator.permissions.query({ name: 'camera' });
+            const permissionResult = await navigator.permissions.query({
+                name: 'camera',
+            });
             if (permissionResult.state === 'denied') {
-                alert('Camera access denied. Please enable camera access in your browser settings.');
+                alert(
+                    'Camera access denied. Please enable camera access in your browser settings.'
+                );
             } else {
                 setShowPermissionPopup(false);
                 openCamera();
@@ -38,7 +41,10 @@ const Recording = () => {
     };
 
     const openCamera = async () => {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        const stream = await navigator.mediaDevices.getUserMedia({
+            video: true,
+            audio: true,
+        });
 
         videoRef.current.srcObject = stream;
         mediaRecorderRef.current = new MediaRecorder(stream);
@@ -48,7 +54,10 @@ const Recording = () => {
 
     const startRecording = async () => {
         try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+            const stream = await navigator.mediaDevices.getUserMedia({
+                video: true,
+                audio: true,
+            });
 
             videoRef.current.srcObject = stream;
             mediaRecorderRef.current = new MediaRecorder(stream);
@@ -60,7 +69,7 @@ const Recording = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': getCookie("access"),
+                    Authorization: getCookie('access'),
                 },
                 body: JSON.stringify({
                     start: 'true',
@@ -74,7 +83,9 @@ const Recording = () => {
                 console.log('Data:', data);
                 console.log('Start session request sent successfully!');
             } else {
-                throw new Error('Request failed with status code ' + startAnalysisResponse.status);
+                throw new Error(
+                    'Request failed with status code ' + startAnalysisResponse.status
+                );
             }
         } catch (error) {
             console.error('Error accessing media devices:', error);
@@ -86,12 +97,12 @@ const Recording = () => {
             const response = await fetch(`${API_URL}/api/analysis/${id}`, {
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'multipart/form-data',
+                    'Content-Type': 'application/json',
+                    Authorization: getCookie('access'),
                 },
                 body: JSON.stringify({
                     ongoing: 'false',
                 }),
-
             });
 
             if (response.ok && mediaRecorderRef.current && recording) {
@@ -120,8 +131,16 @@ const Recording = () => {
                 canvas.width = videoRef.current.videoWidth;
                 canvas.height = videoRef.current.videoHeight;
                 const ctx = canvas.getContext('2d');
-                ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
-                const imageBlob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/jpeg', 0.8));
+                ctx.drawImage(
+                    videoRef.current,
+                    0,
+                    0,
+                    canvas.width,
+                    canvas.height
+                );
+                const imageBlob = await new Promise((resolve) =>
+                    canvas.toBlob(resolve, 'image/jpeg', 0.8)
+                );
                 const formData = new FormData();
 
                 formData.append('file', imageBlob);
@@ -131,7 +150,7 @@ const Recording = () => {
                     const response = await fetch(`${API_URL}/api/analysis/${id}`, {
                         method: 'PUT',
                         headers: {
-                            'Content-Type': 'multipart/form-data',
+                            Authorization: getCookie('access'),
                         },
                         body: formData,
                     });
@@ -139,7 +158,9 @@ const Recording = () => {
                     if (response.ok) {
                         console.log('Image sent successfully!');
                     } else {
-                        throw new Error('Request failed with status code ' + response.status);
+                        throw new Error(
+                            'Request failed with status code ' + response.status
+                        );
                     }
                 } catch (error) {
                     console.error('Error sending image:', error);
@@ -166,7 +187,9 @@ const Recording = () => {
                             </Typography>
                         </CardBody>
                         <CardFooter className="pt-0">
-                            <Button onClick={requestCameraPermission} color='brown'>Allow</Button>
+                            <Button onClick={requestCameraPermission} color="brown">
+                                Allow
+                            </Button>
                         </CardFooter>
                     </Card>
                 </div>
@@ -182,19 +205,23 @@ const Recording = () => {
                 <div className={styles.controlsContainer}>
                     <div className="w-80">
                         <Input
-                            color='brown'
+                            color="brown"
                             label="Tell us what you’re going to learn today"
                             value={learnToday}
                             onChange={handleLearnTodayChange}
                         />
                     </div>
                     <div className={styles.buttonsContainer}>
-                        <Button color="brown" className={styles.recordButton} onClick={startRecording}>
-                            Start Session
-                        </Button>
-                        <Button color="red" onClick={stopRecording}>
-                            End Session
-                        </Button>
+                        {!recording && (
+                            <Button color="brown" className={styles.recordButton} onClick={startRecording}>
+                                Start Session
+                            </Button>
+                        )}
+                        {recording && (
+                            <Button color="red" onClick={stopRecording}>
+                                End Session
+                            </Button>
+                        )}
                     </div>
                 </div>
             )}

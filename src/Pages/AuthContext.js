@@ -6,7 +6,6 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(!!getCookie('access'));
     const [userName, setUserName] = useState('');
-
     useEffect(() => {
         const storedIsLoggedIn = getCookie('isLoggedIn');
         if (storedIsLoggedIn) {
