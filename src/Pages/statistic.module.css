@@ -1,5 +1,9 @@
 @import "../styles/css/tokens.css";
 
+.container {
+  padding: 3em;
+}
+
 .chartContainer {
   margin: 2%;
   overflow: auto;
@@ -9,8 +13,6 @@
   margin-right: 5%;
 }
 .titleOne {
-  margin-top: 70px;
-  margin-left: 80px;
   font-style: normal;
   font-weight: 700;
   font-size: 36px;

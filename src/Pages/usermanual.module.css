@@ -1,16 +1,15 @@
 @import "../styles/css/tokens.css";
 
 .content {
+  padding: 7em;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 5%;
-  margin-bottom: 15%;
+  margin-bottom: 3%;
 }
 
 .centerTitle {
-  /* height: 40px; */
-  /* top: 254px; */
   margin-top: 8%;
   font-weight: 700;
   font-size: 36px;
@@ -21,19 +20,16 @@
 }
 
 .centerBody {
-  width: 1024px;
-  left: 128px;
+  margin: 0 auto;
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
   text-align: center;
-  align-items: center;
   color: var(--md-sys-color-on-surface-light);
 }
 
 .guide {
-  width: 1024px;
-  left: 128px;
+  margin: 0 auto;
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
@@ -42,15 +38,13 @@
 
 .divider {
   margin-top: 51%;
-  width: 1024px;
   height: 0px;
-  left: 128px;
-  top: 1197px;
   border: 1px solid #c1bbae;
 }
 
 .footer {
   background: var(--md-sys-color-on-primary-container-light);
+  color: var(--md-sys-color-primary-container-light);
 }
 
 .logo {
@@ -59,8 +53,4 @@
 
 .contact {
   color: white;
-}
-
-.copyright {
-  color: var(--md-sys-color-primary-container-light);
 }

@@ -93,7 +93,7 @@ const Statistic = () => {
     return (
         <>
             <Layout />
-            <div>
+            <div className={styles.container}>
                 <h2 className={styles.titleOne}>Here is your learning progress report</h2>
                 <div className={`${styles.filter} flex justify-end p-4`}>
                     <select

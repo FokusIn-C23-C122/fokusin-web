@@ -1,5 +1,9 @@
 @import "../styles/css/tokens.css";
 
+.container {
+  padding: 3em;
+}
+
 .table-container {
   display: flex;
   justify-content: center;
@@ -11,7 +15,7 @@
   margin: 2% auto;
   width: 100%;
   max-width: 1410px;
-  height: 500px;
+  height: 60vh;
 }
 
 .thead {
