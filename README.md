@@ -75,6 +75,14 @@ In today’s fast-paced world, people are consuming more short-duration media wh
 
 ### Deployment
 
+1. Run ```npm run build``` to build staticfiles.
+2. Create an app in the app engine dashboard.
+3. Setup gcloud and deploy to Google App Engine by running
+   ```
+   gcloud init
+   gcloud app deploy
+   ```
+   Press ```Y``` if prompted.
 
 ### Acknowledgements
 - React
