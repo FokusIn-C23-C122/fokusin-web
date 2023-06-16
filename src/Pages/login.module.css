@@ -16,3 +16,28 @@
 .illustrationContainer {
   margin-right: 15%;
 }
+
+@media (max-width: 768px) {
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin-right: 0;
+    padding: 2%;
+  }
+
+  .card {
+    margin-top: 2%;
+  }
+
+  .illustrationContainer {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 4%;
+  }
+}

@@ -15,20 +15,20 @@ import {
     UserIcon,
 } from "@heroicons/react/24/outline";
 import { Link, useNavigate } from "react-router-dom";
-import logo from '../../assets/logo.png'
+import { API_URL } from "../../constants/Api";
+import { getCookie } from "../../constants/cookies";
+import logo from "../../assets/logo.png";
 import styles from "./header.module.css";
 import AuthContext from "../../Pages/AuthContext";
 import Logout from "../../Pages/Logout";
 
-
-function ProfileMenu({ isLoggedIn, handleLogout }) {
+function ProfileMenu({ isLoggedIn, handleLogout, userName }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const closeMenu = () => setIsMenuOpen(false);
 
-
     const profileMenuItems = [
         {
-            label: `Signed in as ${localStorage.getItem("userName")}`,
+            label: userName ? `Signed in as ${userName}` : "",
             icon: UserIcon,
         },
         {
@@ -37,11 +37,11 @@ function ProfileMenu({ isLoggedIn, handleLogout }) {
         },
     ];
 
-    const profile = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-            <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clip-rule="evenodd" />
-        </svg>`;
+    const profile =
+        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+    <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clip-rule="evenodd" />
+  </svg>`;
     const profileIcon = `data:image/svg+xml;base64,${btoa(profile)}`;
-
 
     return (
         <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
@@ -71,7 +71,9 @@ function ProfileMenu({ isLoggedIn, handleLogout }) {
                         <MenuItem
                             key={label}
                             onClick={isLastItem ? handleLogout : closeMenu}
-                            className={`flex items-center gap-2 rounded ${isLastItem ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10" : ""
+                            className={`flex items-center gap-2 rounded ${isLastItem
+                                ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
+                                : ""
                                 }`}
                         >
                             {React.createElement(icon, {
@@ -96,8 +98,50 @@ function ProfileMenu({ isLoggedIn, handleLogout }) {
 export default function Header() {
     const [openNav, setOpenNav] = useState(false);
     const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
-    const { userName, setUserName } = useContext(AuthContext); // Fix: Remove const before setUserName
+    const [userName, setUserName] = useState("");
     const navigate = useNavigate();
+
+    const fetchUsername = async () => {
+        try {
+            const response = await fetch(`${API_URL}/api/user/`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: getCookie("access"),
+                },
+            });
+            if (response.ok) {
+                const data = await response.json();
+                const username = data.username;
+                setUserName(username);
+            } else if (response.status === 401) {
+                setUserName("");
+            }
+        } catch (error) {
+            console.error("Error fetching username:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchUsername();
+    }, []);
+
+    useEffect(() => {
+        const storedUserName = localStorage.getItem("userName");
+        if (
+            storedUserName &&
+            storedUserName !== "undefined" &&
+            storedUserName !== "null"
+        ) {
+            setUserName(storedUserName);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (userName) {
+            localStorage.setItem("userName", userName);
+        }
+    }, [userName]);
 
     useEffect(() => {
         const handleResize = () => {
@@ -113,13 +157,6 @@ export default function Header() {
         };
     }, []);
 
-    useEffect(() => {
-        const storedUserName = localStorage.getItem("userName");
-        if (storedUserName) {
-            setUserName(storedUserName);
-        }
-    }, [setUserName]);
-
     const handleLogout = () => {
         setIsLoggedIn(false);
         navigate("/logout");
@@ -128,20 +165,29 @@ export default function Header() {
     const navList = (
         <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
             <Typography as="li">
-                <Link to="/recording" className={`${styles.menu} ${!isLoggedIn ? "pointer-events-none opacity-50" : ""
-                    }`}>
+                <Link
+                    to="/recording"
+                    className={`${styles.menu} ${!isLoggedIn ? "pointer-events-none opacity-50" : ""
+                        }`}
+                >
                     Record
                 </Link>
             </Typography>
             <Typography as="li">
-                <Link to="/analysis" className={`${styles.menu} ${!isLoggedIn ? "pointer-events-none opacity-50" : ""
-                    }`}>
+                <Link
+                    to="/analysis"
+                    className={`${styles.menu} ${!isLoggedIn ? "pointer-events-none opacity-50" : ""
+                        }`}
+                >
                     Statistics
                 </Link>
             </Typography>
             <Typography as="li">
-                <Link to="/history" className={`${styles.menu} ${!isLoggedIn ? "pointer-events-none opacity-50" : ""
-                    }`}>
+                <Link
+                    to="/history"
+                    className={`${styles.menu} ${!isLoggedIn ? "pointer-events-none opacity-50" : ""
+                        }`}
+                >
                     History
                 </Link>
             </Typography>
@@ -174,7 +220,6 @@ export default function Header() {
                             </>
                         ) : (
                             <ProfileMenu
-                                setIsLoggedIn={setIsLoggedIn}
                                 isLoggedIn={isLoggedIn}
                                 handleLogout={handleLogout}
                                 userName={userName}
