@@ -38,7 +38,7 @@ In today’s fast-paced world, people are consuming more short-duration media wh
 
 4. Access the application in your web browser:
    ```shell
-    http://localhost:3000
+   http://localhost:3000
    ```
 
 ## Folder Structure
